@@ -10,5 +10,4 @@ public interface DeliveryRepo extends CrudRepository<Delivery, UUID> {
 
     Optional<Delivery> findById(UUID uuid);
 
-
 }

@@ -1,6 +1,5 @@
 package com.purple.delivery.model;
 
-import com.purple.delivery.dto.OrderStatus;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import org.springframework.data.annotation.Id;
