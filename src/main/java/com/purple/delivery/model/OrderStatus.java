@@ -1,4 +1,4 @@
-package com.purple.delivery.dto;
+package com.purple.delivery.model;
 
 public enum OrderStatus {
     NEW("Новый"),
