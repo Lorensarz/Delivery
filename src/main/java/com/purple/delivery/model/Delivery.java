@@ -11,6 +11,7 @@ public class Delivery {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+
     UUID delivery_uuid;
     UUID order_uuid;
     Date date;
