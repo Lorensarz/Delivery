@@ -2,12 +2,15 @@ package com.purple.delivery.repository;
 
 import com.purple.delivery.model.Delivery;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;
-
-public interface DeliveryRepo extends CrudRepository<Delivery, UUID> {
+@Repository
+public interface DeliveryRepository extends CrudRepository<Delivery, UUID> {
 
     Optional<Delivery> findById(UUID uuid);
+
+    Delivery save(Delivery delivery);
 
 }
