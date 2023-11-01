@@ -1,11 +1,13 @@
-package com.example.order.controllers;
+package com.purple.order.controllers;
 
-import com.example.order.services.OrderService;
+import com.purple.delivery.controller.DeliveryController;
+import com.purple.delivery.dto.DeliveryDto;
+import com.purple.order.controllers.dto.OrderDto;
+import com.purple.order.services.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.util.List;
 import java.util.UUID;
 
 
@@ -13,15 +15,16 @@ import java.util.UUID;
 @RequestMapping("/order-service")
 public class OrderController {
 
-//  ObjectMapper objectMapper;
-    private OrderService service;
+    private final OrderService service;
+    @Autowired
+    public OrderController(OrderService service){
+        this.service = service;
+    }
 
     @PostMapping("/create")
-    public ResponseEntity<Boolean> createOrder(@RequestHeader("userId")String clientId,
-                                               @PathVariable("order") List<String> orderString,
-                                               @PathVariable("date") Timestamp date){
+    public ResponseEntity<String> createOrder(@RequestHeader("userId")String clientId,
+                                               @RequestBody OrderDto orderDto){
         UUID userId = UUID.fromString(clientId);
-        service.add(orderString,date, userId);
-        return ResponseEntity.ok(true);
+        return(new DeliveryController().createOrder(service.add(orderDto, userId),new DeliveryDto()));
     }
 }

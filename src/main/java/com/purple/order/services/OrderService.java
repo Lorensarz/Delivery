@@ -1,24 +1,31 @@
-package com.example.order.services;
+package com.purple.order.services;
 
+import com.purple.order.controllers.dto.OrderDto;
+import com.purple.order.controllers.mapper.OrderDtoMapper;
+import com.purple.order.entities.Order;
+import com.purple.order.repositories.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.util.List;
 import java.util.UUID;
 
 @Service
 public class OrderService {
 
 
-//    private final OrderRepository repository;
-//
-//    public OrderService(OrderRepository repository) {
-//        this.repository = repository;
-//    }
+    private final OrderRepository repository;
 
-    public void add(List<String> orderString, Timestamp date, UUID userId) {
-       // vacancyToSave.setUserId(userId);
-       // repository.persist(vacancyToSave);
-        //return repository.findById(vacancyToSave.getId());
+    @Autowired
+    public OrderService(OrderRepository repository) {
+        this.repository = repository;
     }
+
+    public OrderDto add(OrderDto orderDto, UUID userId) {
+        Order order;
+        order = OrderDtoMapper.INSTANCE.toEntity(orderDto);
+        order.setClientId(userId);
+        repository.save(order);
+        return OrderDtoMapper.INSTANCE.toDto(order);
+    }
+
 }
