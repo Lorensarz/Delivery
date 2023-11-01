@@ -24,8 +24,7 @@ public class OrderService {
         Order order;
         order = OrderDtoMapper.INSTANCE.toEntity(orderDto);
         order.setClientId(userId);
-        repository.save(order);
-        return OrderDtoMapper.INSTANCE.toDto(order);
+        return OrderDtoMapper.INSTANCE.toDto(repository.save(order));
     }
 
 }
