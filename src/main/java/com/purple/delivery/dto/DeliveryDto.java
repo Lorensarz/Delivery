@@ -1,24 +1,20 @@
-package com.purple.delivery.model;
+package com.purple.delivery.dto;
 
-
-import jakarta.persistence.*;
-import lombok.*;
+import com.purple.delivery.model.OrderStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
-@Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Table(name = "delivery")
 @Builder
-public class Delivery {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class DeliveryDto {
     private UUID delivery_uuid;
     private UUID order_uuid;
     private LocalDateTime order_date;
@@ -27,7 +23,4 @@ public class Delivery {
     private UUID courier;
     private String address;
     private BigDecimal cost;
-
-
 }
-

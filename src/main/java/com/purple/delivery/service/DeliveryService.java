@@ -1,9 +1,9 @@
 package com.purple.delivery.service;
 
-import com.purple.delivery.model.Courier;
-import com.purple.delivery.model.Order;
+import com.purple.delivery.dto.DeliveryDto;
+import com.purple.delivery.model.EntityMapper;
+import com.purple.delivery.model.Delivery;
 import com.purple.delivery.repository.DeliveryRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +12,11 @@ public class DeliveryService {
 
     @Autowired
     private DeliveryRepository deliveryRepository;
-    @Autowired
-    private UserService userService;
 
+    public void processOrder(DeliveryDto deliveryDto) {
+        Delivery delivery = EntityMapper.INSTANCE.dtoToEntity(deliveryDto, Delivery.class);
+        deliveryRepository.save(delivery);
 
-    public void processOrder(Order order) {
-        Courier courier = userService.findCourier();
     }
 
 }
