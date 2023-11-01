@@ -1,13 +1,13 @@
 package com.purple.delivery.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+@Data
+@NoArgsConstructor
 public class UserDto {
-    @JsonProperty("user_id")
-    private UUID userId;
-
-    @JsonProperty("address")
-    private String address;
+    private UUID courierUuid;
 }

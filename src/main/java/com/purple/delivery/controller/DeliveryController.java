@@ -1,6 +1,8 @@
 package com.purple.delivery.controller;
 
 import com.purple.delivery.dto.DeliveryDto;
+import com.purple.delivery.dto.OrderDto;
+import com.purple.delivery.dto.UserDto;
 import com.purple.delivery.model.OrderStatus;
 import com.purple.delivery.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,12 @@ import java.util.UUID;
 @RequestMapping("/delivery")
 @SessionAttributes("delivery")
 public class DeliveryController {
+    private final DeliveryService deliveryService;
+
     @Autowired
-    private DeliveryService deliveryService;
+    public DeliveryController(DeliveryService deliveryService) {
+        this.deliveryService = deliveryService;
+    }
 
     @ModelAttribute("delivery")
     public DeliveryDto initializationDelivery() {
@@ -27,8 +33,10 @@ public class DeliveryController {
 
     @RequestMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> createOrder(@RequestBody UUID uuid, String address,
+    public ResponseEntity<String> createOrder(@RequestBody OrderDto orderDto,
                                               @ModelAttribute("delivery") DeliveryDto delivery) {
+        UUID uuid = orderDto.getUuid();
+        String address = orderDto.getAddress();
         delivery.setOrder_uuid(uuid);
         delivery.setAddress(address);
         delivery.setDelivery_date(LocalDateTime.now().plusDays(1));
@@ -36,21 +44,22 @@ public class DeliveryController {
         delivery.setCost(new BigDecimal(500));
         delivery.setStatus(OrderStatus.PROCESSING);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Заказ создан");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Order create");
     }
 
     @RequestMapping("/findCourier")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<String> findCourier(@RequestBody UUID uuid,
+    public ResponseEntity<String> findCourier(@RequestBody UserDto userDto,
                                               @ModelAttribute("delivery") DeliveryDto delivery) {
-        if (delivery.getOrder_uuid() == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Заказ не найден");
+        if (delivery.getOrder_uuid() != null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Order not found");
         }
 
-        delivery.setCourier(uuid);
+        UUID courierUuid = userDto.getCourierUuid();
+        delivery.setCourier(courierUuid);
         deliveryService.processOrder(delivery);
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Курьер назначен");
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Courier assigned");
     }
 
 }

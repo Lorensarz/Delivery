@@ -10,8 +10,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class DeliveryService {
 
+    private final DeliveryRepository deliveryRepository;
+
     @Autowired
-    private DeliveryRepository deliveryRepository;
+    public DeliveryService(DeliveryRepository deliveryRepository) {
+        this.deliveryRepository = deliveryRepository;
+    }
 
     public void processOrder(DeliveryDto deliveryDto) {
         Delivery delivery = EntityMapper.INSTANCE.dtoToEntity(deliveryDto, Delivery.class);
