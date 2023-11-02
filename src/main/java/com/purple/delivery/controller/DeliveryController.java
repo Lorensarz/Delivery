@@ -65,7 +65,7 @@ public class DeliveryController {
 
     @RequestMapping("/createdev")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Delivery createDelivery(@RequestBody UserDto userDto){
+    public Delivery createDelivery(String userDto){
         UUID uuid = UUID.randomUUID();
         Delivery delivery = new Delivery();
         delivery.setDelivery_uuid(uuid);

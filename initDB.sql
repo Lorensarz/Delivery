@@ -6,7 +6,7 @@ create type order_status as enum ('new', 'processing', 'shipped', 'delivered', '
 
 
 CREATE TABLE delivery(
-delivery_uuid uuid  DEFAULT gen_random_uuid() PRIMARY KEY,
+uuid uuid  DEFAULT gen_random_uuid() PRIMARY KEY,
   order_uuid uuid,
  order_date TIMESTAMP ,
  delivery_date TIMESTAMP ,
@@ -14,6 +14,5 @@ delivery_uuid uuid  DEFAULT gen_random_uuid() PRIMARY KEY,
  curier uuid ,
  adress VARCHAR  ,
  cost numeric
-)
+);
 
-SELECT * FROM delivery
