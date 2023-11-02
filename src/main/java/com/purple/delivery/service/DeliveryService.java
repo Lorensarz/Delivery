@@ -23,4 +23,8 @@ public class DeliveryService {
 
     }
 
+    public Delivery create(Delivery delivery){
+        return deliveryRepository.save(delivery);
+    }
+
 }
