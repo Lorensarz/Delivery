@@ -9,17 +9,22 @@ import com.purple.delivery.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
 @RestController
 @RequestMapping("/delivery")
 @SessionAttributes("delivery")
 public class DeliveryController {
-    private final DeliveryService deliveryService;
+
+
+    private DeliveryService deliveryService;
 
     @Autowired
     public DeliveryController(DeliveryService deliveryService) {
@@ -63,14 +68,25 @@ public class DeliveryController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Courier assigned");
     }
 
-    @RequestMapping("/createdev")
+    @PostMapping("/createdev")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Delivery createDelivery(String userDto){
+    public  ResponseEntity<String> createDelivery(String userDto){
         UUID uuid = UUID.randomUUID();
         Delivery delivery = new Delivery();
-        delivery.setDelivery_uuid(uuid);
-         return deliveryService.create(delivery);
+        delivery.setUuid(uuid);
+          deliveryService.create(delivery);
 
+        return ResponseEntity.status(HttpStatus.CREATED).body("Delivery created");
     }
 
+    @GetMapping("/findAll")
+    @ResponseStatus(HttpStatus.OK)
+    public  ResponseEntity<String> getAll(String userDto){
+      //  UUID uuid = UUID.randomUUID();
+        ///Delivery delivery = new Delivery();
+        //delivery.setUuid(uuid);
+        deliveryService.findAll();
+
+        return ResponseEntity.status(HttpStatus.OK).body("delivery list get");
+    }
 }

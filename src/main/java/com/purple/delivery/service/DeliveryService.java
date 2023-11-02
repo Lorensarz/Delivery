@@ -26,5 +26,7 @@ public class DeliveryService {
     public Delivery create(Delivery delivery){
         return deliveryRepository.save(delivery);
     }
-
+public Iterable<Delivery> findAll(){
+        return deliveryRepository.findAll();
+}
 }
