@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -74,19 +75,19 @@ public class DeliveryController {
         UUID uuid = UUID.randomUUID();
         Delivery delivery = new Delivery();
         delivery.setUuid(uuid);
-          deliveryService.create(delivery);
+        deliveryService.create(delivery);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Delivery created");
     }
 
     @GetMapping("/findAll")
-    @ResponseStatus(HttpStatus.OK)
-    public  ResponseEntity<String> getAll(String userDto){
+   // @ResponseStatus(HttpStatus.OK)
+    public   Iterable<Delivery>  getAll(String userDto){
       //  UUID uuid = UUID.randomUUID();
         ///Delivery delivery = new Delivery();
         //delivery.setUuid(uuid);
-        deliveryService.findAll();
-
-        return ResponseEntity.status(HttpStatus.OK).body("delivery list get");
+        Iterable<Delivery> deliveries= deliveryService.findAll();
+         return deliveries;
+        //return ResponseEntity.status(HttpStatus.OK).body("delivery list get");
     }
 }
