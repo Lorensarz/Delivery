@@ -28,7 +28,7 @@ public class CRUDControllerDelivery {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<String> createDelivery(String userDto){
+    public ResponseEntity<Delivery> createDelivery(String userDto){
         UUID uuid = UUID.randomUUID();
         Delivery delivery = new Delivery();
         delivery.setUuid(uuid);
@@ -41,7 +41,7 @@ public class CRUDControllerDelivery {
         delivery.setOrder_date(now());
         deliveryService.create(delivery);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Delivery created");
+        return ResponseEntity.status(HttpStatus.CREATED).body(delivery);
     }
 
 
@@ -49,18 +49,18 @@ public class CRUDControllerDelivery {
 
     @GetMapping("/findAll")
     // @ResponseStatus(HttpStatus.OK)
-    public   Iterable<Delivery>  getAll(String userDto){
-        //  UUID uuid = UUID.randomUUID();
-        ///Delivery delivery = new Delivery();
-        //delivery.setUuid(uuid);
+    public  ResponseEntity<Iterable<Delivery>>   getAll(){
+
         Iterable<Delivery> deliveries= deliveryService.findAll();
-        return deliveries;
-        //return ResponseEntity.status(HttpStatus.OK).body("delivery list get");
+         return ResponseEntity.status(HttpStatus.CREATED).body(deliveries);
+
     }
 
     @GetMapping("/find")
     // @ResponseStatus(HttpStatus.OK)
     public   Delivery  get(@RequestParam  UUID uuid){
+
+
         return  null;
     }
 }
