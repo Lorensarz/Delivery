@@ -27,8 +27,8 @@ public class Delivery {
     private LocalDateTime order_date;
     private LocalDateTime delivery_date;
     private String orderstate;
-    private UUID curier;
-    private String adress;
+    private UUID courier;
+    private String address;
     private BigDecimal cost;
 
 
