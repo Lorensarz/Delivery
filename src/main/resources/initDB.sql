@@ -11,9 +11,7 @@ delivery_uuid uuid  DEFAULT gen_random_uuid() PRIMARY KEY,
  order_date TIMESTAMP ,
  delivery_date TIMESTAMP ,
  orderState order_status ,
- curier uuid ,
- adress VARCHAR  ,
+ courier uuid ,
+ address VARCHAR  ,
  cost numeric
-)
-
-SELECT * FROM delivery
+);

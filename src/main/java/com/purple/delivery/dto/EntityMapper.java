@@ -1,4 +1,4 @@
-package com.purple.delivery.model;
+package com.purple.delivery.dto;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

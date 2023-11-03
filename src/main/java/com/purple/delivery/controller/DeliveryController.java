@@ -3,7 +3,6 @@ package com.purple.delivery.controller;
 import com.purple.delivery.dto.DeliveryDto;
 import com.purple.delivery.dto.OrderDto;
 import com.purple.delivery.dto.UserDto;
-import com.purple.delivery.model.Delivery;
 import com.purple.delivery.model.OrderStatus;
 import com.purple.delivery.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,16 +60,6 @@ public class DeliveryController {
         deliveryService.processOrder(delivery);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Courier assigned");
-    }
-
-    @RequestMapping("/createdev")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public Delivery createDelivery(String userDto){
-        UUID uuid = UUID.randomUUID();
-        Delivery delivery = new Delivery();
-        delivery.setDelivery_uuid(uuid);
-         return deliveryService.create(delivery);
-
     }
 
 }
