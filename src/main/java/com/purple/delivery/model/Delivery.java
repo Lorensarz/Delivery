@@ -18,7 +18,7 @@ import java.util.UUID;
 public class Delivery {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
     private UUID order_uuid;
     private LocalDateTime order_date;

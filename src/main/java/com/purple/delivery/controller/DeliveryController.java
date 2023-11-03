@@ -33,8 +33,8 @@ public class DeliveryController {
     }
 
     @ModelAttribute("delivery")
-    public DeliveryDto initializationDelivery() {
-        return new DeliveryDto();
+   public DeliveryDto initializationDelivery() {
+       return new DeliveryDto();
     }
 
 
@@ -69,25 +69,4 @@ public class DeliveryController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Courier assigned");
     }
 
-    @PostMapping("/createdev")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public  ResponseEntity<String> createDelivery(String userDto){
-        UUID uuid = UUID.randomUUID();
-        Delivery delivery = new Delivery();
-        delivery.setUuid(uuid);
-        deliveryService.create(delivery);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("Delivery created");
-    }
-
-    @GetMapping("/findAll")
-   // @ResponseStatus(HttpStatus.OK)
-    public   Iterable<Delivery>  getAll(String userDto){
-      //  UUID uuid = UUID.randomUUID();
-        ///Delivery delivery = new Delivery();
-        //delivery.setUuid(uuid);
-        Iterable<Delivery> deliveries= deliveryService.findAll();
-         return deliveries;
-        //return ResponseEntity.status(HttpStatus.OK).body("delivery list get");
-    }
 }
