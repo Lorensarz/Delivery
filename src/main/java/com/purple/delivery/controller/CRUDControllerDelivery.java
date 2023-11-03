@@ -15,7 +15,7 @@ import java.util.UUID;
 import static java.time.LocalDateTime.now;
 
 @RestController
-@RequestMapping("/delCrud")
+@RequestMapping("/delivery")
 public class CRUDControllerDelivery {
 
     private DeliveryService deliveryService;

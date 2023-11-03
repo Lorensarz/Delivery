@@ -38,7 +38,7 @@ public class DeliveryController {
     }
 
 
-    @RequestMapping("/create")
+    @RequestMapping("/createOrder")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> createOrder(@RequestBody OrderDto orderDto,
                                               @ModelAttribute("delivery") DeliveryDto delivery) {
