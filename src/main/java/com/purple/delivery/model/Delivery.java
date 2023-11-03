@@ -20,14 +20,16 @@ import java.util.UUID;
 public class Delivery {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID delivery_uuid;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID uuid;
     private UUID order_uuid;
     private LocalDateTime order_date;
     private LocalDateTime delivery_date;
-    private OrderStatus Status;
-    private UUID courier;
-    private String address;
+
+   // @Enumerated(EnumType.STRING)
+   // private OrderStatus orderstate;
+    private UUID curier;
+    private String adress;
     private BigDecimal cost;
 
 

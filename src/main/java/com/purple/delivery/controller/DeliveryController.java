@@ -8,17 +8,23 @@ import com.purple.delivery.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 @RequestMapping("/delivery")
 @SessionAttributes("delivery")
 public class DeliveryController {
-    private final DeliveryService deliveryService;
+
+
+    private DeliveryService deliveryService;
 
     @Autowired
     public DeliveryController(DeliveryService deliveryService) {
@@ -26,8 +32,8 @@ public class DeliveryController {
     }
 
     @ModelAttribute("delivery")
-    public DeliveryDto initializationDelivery() {
-        return new DeliveryDto();
+   public DeliveryDto initializationDelivery() {
+       return new DeliveryDto();
     }
 
 

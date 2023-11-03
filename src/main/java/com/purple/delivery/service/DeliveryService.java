@@ -1,11 +1,13 @@
 package com.purple.delivery.service;
 
 import com.purple.delivery.dto.DeliveryDto;
-import com.purple.delivery.dto.EntityMapper;
+import com.purple.delivery.model.EntityMapper;
 import com.purple.delivery.model.Delivery;
 import com.purple.delivery.repository.DeliveryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class DeliveryService {
@@ -26,9 +28,8 @@ public class DeliveryService {
     public Delivery create(Delivery delivery){
         return deliveryRepository.save(delivery);
     }
-
-    public Delivery createDelivery(Delivery delivery) {
-        return deliveryRepository.save(delivery);
-    }
-
+public Iterable<Delivery> findAll(){
+        return deliveryRepository.findAll();
 }
+};
+
