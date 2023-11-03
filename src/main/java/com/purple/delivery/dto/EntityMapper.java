@@ -1,14 +1,15 @@
 package com.purple.delivery.dto;
 
+import com.purple.delivery.model.Delivery;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface EntityMapper {
-    EntityMapper INSTANCE = Mappers.getMapper(EntityMapper.class);
-    @Mapping(target = "propertyName", source = "dtoPropertyName")
-    <D, E> E dtoToEntity(D dto, Class<E> entityClass);
+    Delivery dtoToEntity(DeliveryDto delivery);
 
-    <D, E> D entityToDto(E entity, Class<D> dtoClass);
+    DeliveryDto entityToDto(Delivery delivery);
+
+    Iterable<Delivery> dtoIterableToEntityIterable(Iterable<DeliveryDto> dtos);
+
+    Iterable<DeliveryDto> entityIterableToDtoIterable(Iterable<Delivery> entities);
 }
