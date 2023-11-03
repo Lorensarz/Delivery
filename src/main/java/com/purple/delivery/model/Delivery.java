@@ -22,16 +22,14 @@ public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
+
     private UUID order_uuid;
     private LocalDateTime order_date;
     private LocalDateTime delivery_date;
-
-   // @Enumerated(EnumType.STRING)
-   // private OrderStatus orderstate;
+    private String orderstate;
     private UUID curier;
     private String adress;
     private BigDecimal cost;
 
 
 }
-
