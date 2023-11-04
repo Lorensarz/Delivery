@@ -2,7 +2,6 @@ package com.purple.delivery.controller;
 
 import com.purple.delivery.dto.DeliveryDto;
 import com.purple.delivery.dto.EntityMapper;
-import com.purple.delivery.model.Delivery;
 import com.purple.delivery.service.DeliveryService;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +22,8 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class DeliveryControllerTest {
@@ -54,7 +54,7 @@ public class DeliveryControllerTest {
         requestBody.put("uuid", orderUuid.toString());
         requestBody.put("address", address);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/delivery/create")
+        mockMvc.perform(MockMvcRequestBuilders.post("/delivery/createOrder")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody.toString())
                         .session(new MockHttpSession()))

@@ -9,11 +9,11 @@ import java.util.UUID;
 
 @Data
 public class DeliveryDto {
-    private UUID delivery_uuid;
+    private UUID uuid;
     private UUID order_uuid;
     private LocalDateTime order_date;
     private LocalDateTime delivery_date;
-    private OrderStatus Status;
+    private OrderStatus orderstate;
     private UUID courier;
     private String address;
     private BigDecimal cost;

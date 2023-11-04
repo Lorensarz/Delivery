@@ -21,6 +21,7 @@ public class DeliveryController {
 
 
     private final DeliveryService deliveryService;
+    private final DeliveryDto deliveryDto = new DeliveryDto();
 
     @Autowired
     public DeliveryController(DeliveryService deliveryService) {
@@ -29,7 +30,7 @@ public class DeliveryController {
 
     @ModelAttribute("delivery")
     public DeliveryDto initializationDelivery() {
-        return new DeliveryDto();
+        return deliveryDto;
     }
 
 
@@ -44,7 +45,7 @@ public class DeliveryController {
         delivery.setDelivery_date(LocalDateTime.now().plusDays(1));
         delivery.setOrder_date(LocalDateTime.now());
         delivery.setCost(new BigDecimal(500));
-        delivery.setStatus(OrderStatus.PROCESSING);
+        delivery.setOrderstate(OrderStatus.PROCESSING);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Order create");
     }
@@ -53,7 +54,7 @@ public class DeliveryController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<String> findCourier(@RequestBody UserDto userDto,
                                               @ModelAttribute("delivery") DeliveryDto delivery) {
-        if (delivery.getOrder_uuid() != null) {
+        if (delivery.getOrder_uuid() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Order not found");
         }
 
