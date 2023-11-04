@@ -1,6 +1,5 @@
 package com.purple.delivery.model;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
 import java.util.UUID;
 
 @Entity
@@ -20,6 +20,7 @@ import java.util.UUID;
 public class Delivery {
 
     @Id
+
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
 
@@ -38,11 +39,12 @@ public class Delivery {
     @Column(name="courier")
     private UUID courier;
 
-    @Column(name="adress")
-    private String adress;
+    @Column(name="address")
+    private String address;
 
     @Column(name="cost")
     private BigDecimal cost;
 
 
 }
+

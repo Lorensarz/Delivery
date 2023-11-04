@@ -1,10 +1,14 @@
 package com.purple.delivery.controller;
 
 import com.purple.delivery.dto.DeliveryDto;
-import com.purple.delivery.dto.OrderDto;
+
+
+import com.purple.delivery.dto.EntityMapper;
 import com.purple.delivery.dto.UserDto;
 import com.purple.delivery.model.OrderStatus;
 import com.purple.delivery.service.DeliveryService;
+
+import com.purple.order.controllers.dto.OrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +24,19 @@ import java.util.UUID;
 public class DeliveryController {
 
 
+
     private final DeliveryService deliveryService;
     private final DeliveryDto deliveryDto = new DeliveryDto();
+
+
+
 
     @Autowired
     public DeliveryController(DeliveryService deliveryService) {
         this.deliveryService = deliveryService;
+
     }
+
 
     @ModelAttribute("delivery")
     public DeliveryDto initializationDelivery() {
@@ -46,12 +56,13 @@ public class DeliveryController {
         delivery.setOrder_date(LocalDateTime.now());
         delivery.setCost(new BigDecimal(500));
         delivery.setOrderstate(OrderStatus.PROCESSING);
-
+        deliveryService.create(delivery);
         return ResponseEntity.status(HttpStatus.CREATED).body("Order create");
     }
 
     @RequestMapping("/findCourier")
     @ResponseStatus(HttpStatus.ACCEPTED)
+
     public ResponseEntity<String> findCourier(@RequestBody UserDto userDto,
                                               @ModelAttribute("delivery") DeliveryDto delivery) {
         if (delivery.getOrder_uuid() == null) {
@@ -65,9 +76,12 @@ public class DeliveryController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Courier assigned");
     }
 
-    @GetMapping("/findAll")
+    @RequestMapping("/findAll")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Iterable<DeliveryDto>> findAll() {
         Iterable<DeliveryDto> deliveryDtos = deliveryService.findAll();
         return new ResponseEntity<>(deliveryDtos, HttpStatus.OK);
     }
+
+
 }
