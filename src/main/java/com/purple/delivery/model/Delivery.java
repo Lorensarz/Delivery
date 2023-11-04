@@ -23,12 +23,25 @@ public class Delivery {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
 
+    @Column(name="order_id")
     private UUID order_uuid;
+
+    @Column(name="order_date")
     private LocalDateTime order_date;
+
+    @Column(name="delivery_date")
     private LocalDateTime delivery_date;
+
+    @Column(name="orderstate")
     private String orderstate;
+
+    @Column(name="courier")
     private UUID courier;
-    private String address;
+
+    @Column(name="adress")
+    private String adress;
+
+    @Column(name="cost")
     private BigDecimal cost;
 
 
