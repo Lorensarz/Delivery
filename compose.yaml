@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: 3cfbda2047c7
+    environment:
+      - 'POSTGRES_DB=delivery'
+      - 'POSTGRES_PASSWORD=root'
+      - 'POSTGRES_USER=postgres'
+
+    ports:
+      - 5432:5432
