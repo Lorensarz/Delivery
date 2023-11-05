@@ -1,16 +1,17 @@
-package com.purple.order.controllers;
+package com.purple.delivery.controller;
 
-import com.purple.delivery.controller.DeliveryController;
 import com.purple.delivery.dto.DeliveryDto;
 
 
-import com.purple.order.controllers.dto.OrderDto;
-import com.purple.order.services.OrderService;
+import com.purple.delivery.dto.dto.OrderDto;
+import com.purple.delivery.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 
 @RestController
@@ -31,10 +32,16 @@ public class OrderController {
         this.deliveryController=deliveryController;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<String> createOrder(@RequestHeader("userId")String clientId,
-                                               @RequestBody OrderDto orderDto){
-        UUID userId = UUID.fromString(clientId);
+    //@RequestMapping("/create")
+    @PostMapping(path = "/create", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> createOrder( @RequestBody OrderDto orderDto){
+
+
+        UUID userId = orderDto.getClientId();
+        //
         return( deliveryController.createOrder(service.add(orderDto, userId),new DeliveryDto()));
     }
+
+  //  @PostMapping(path = "/create", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+
 }

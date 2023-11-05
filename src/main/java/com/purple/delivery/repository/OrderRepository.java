@@ -1,6 +1,6 @@
-package com.purple.order.repositories;
+package com.purple.delivery.repository;
 
-import com.purple.order.entities.Order;
+import com.purple.delivery.entities.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.purple.order.entities;
+package com.purple.delivery.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,5 +34,5 @@ public class Order {
     private UUID clientId;
 
     @Column(name = "order_Items_List")
-    private List<String> orderItemsList;
+    private String orderItemsList;
 }

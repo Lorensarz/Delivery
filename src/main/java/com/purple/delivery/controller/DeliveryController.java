@@ -3,12 +3,11 @@ package com.purple.delivery.controller;
 import com.purple.delivery.dto.DeliveryDto;
 
 
-import com.purple.delivery.dto.EntityMapper;
 import com.purple.delivery.dto.UserDto;
 import com.purple.delivery.model.OrderStatus;
 import com.purple.delivery.service.DeliveryService;
 
-import com.purple.order.controllers.dto.OrderDto;
+import com.purple.delivery.dto.dto.OrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,9 +1,10 @@
-package com.purple.order.services;
+package com.purple.delivery.service;
 
-import com.purple.order.controllers.dto.OrderDto;
-import com.purple.order.controllers.mapper.OrderDtoMapper;
-import com.purple.order.entities.Order;
-import com.purple.order.repositories.OrderRepository;
+import com.purple.delivery.dto.DeliveryDto;
+import com.purple.delivery.repository.DeliveryRepository;
+import com.purple.delivery.dto.dto.OrderDto;
+import com.purple.delivery.entities.Order;
+import com.purple.delivery.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +23,9 @@ public class OrderService {
 
     public OrderDto add(OrderDto orderDto, UUID userId) {
         Order order;
-        order = OrderDtoMapper.INSTANCE.toEntity(orderDto);
+        order = DeliveryDto.OrderDtoMapper.INSTANCE.toEntity(orderDto);
         order.setClientId(userId);
-        return OrderDtoMapper.INSTANCE.toDto(repository.save(order));
+        return DeliveryDto.OrderDtoMapper.INSTANCE.toDto(repository.save(order));
     }
 
 }

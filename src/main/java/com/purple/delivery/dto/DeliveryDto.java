@@ -1,12 +1,12 @@
 package com.purple.delivery.dto;
 
 import com.purple.delivery.model.OrderStatus;
+import com.purple.delivery.dto.dto.OrderDto;
+import com.purple.delivery.entities.Order;
 import lombok.Data;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 
 import java.math.BigDecimal;
@@ -26,4 +26,11 @@ public class DeliveryDto {
     private UUID courier;
     private String address;
     private BigDecimal cost;
+
+    @Mapper
+    public static interface OrderDtoMapper {
+        OrderDtoMapper INSTANCE = Mappers.getMapper(OrderDtoMapper.class);
+        Order toEntity(OrderDto orderDto);
+        OrderDto toDto(Order order);
+    }
 }

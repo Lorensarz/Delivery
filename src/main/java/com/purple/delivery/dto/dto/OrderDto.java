@@ -1,4 +1,4 @@
-package com.purple.order.controllers.dto;
+package com.purple.delivery.dto.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
