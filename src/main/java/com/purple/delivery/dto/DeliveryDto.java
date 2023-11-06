@@ -9,6 +9,7 @@ import org.mapstruct.factory.Mappers;
 
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -19,8 +20,8 @@ import java.util.UUID;
 public class DeliveryDto {
     private UUID uuid;
     private UUID order_uuid;
-    private LocalDateTime order_date;
-    private LocalDateTime delivery_date;
+    private Timestamp order_date;
+    private Timestamp delivery_date;
     private OrderStatus orderstate;
     private UUID courier;
     private UUID clientId;

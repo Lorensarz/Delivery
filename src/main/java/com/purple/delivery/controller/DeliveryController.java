@@ -18,6 +18,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigDecimal;
 import java.net.URI;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -47,29 +49,45 @@ public class DeliveryController {
     @PostMapping("/createDelivery")
     public ResponseEntity<String> createDelivery(@RequestBody OrderDto orderDto) {
         UUID uuid = orderDto.getUuid();
-        String address = orderDto.getAddress();
         DeliveryDto deliveryDto = new DeliveryDto();
         deliveryDto.setOrder_uuid(uuid);
-        deliveryDto.setAddress(address);
-        deliveryDto.setDelivery_date(LocalDateTime.now().plusDays(1));
-        deliveryDto.setOrder_date(LocalDateTime.now());
+        deliveryDto.setClientId(orderDto.getClientId());
+        deliveryDto.setDelivery_date(Timestamp.from(Instant.now()));
+        deliveryDto.setOrder_date(orderDto.getTimestamp());
         deliveryDto.setCost(new BigDecimal(500));
-        deliveryDto.setOrderstate(OrderStatus.NEW);
+        RestTemplate restTemplate = new RestTemplate();
+
+        URI uri = UriComponentsBuilder.fromUriString(urlAddress).build(42);
+        RequestEntity<Void> requestEntity = RequestEntity.get(uri)
+                .header("userId", orderDto.getClientId().toString())
+                .build();
+        ResponseEntity<String> response = restTemplate.exchange(requestEntity, String.class);
+        String address = response.getHeaders().getFirst("address");
+        deliveryDto.setAddress(address);
+
+        restTemplate = new RestTemplate();
+        uri = UriComponentsBuilder.fromUriString(urlCourier).build(42);
+        requestEntity = RequestEntity.get(uri)
+                .build();
+        response = restTemplate.exchange(requestEntity, String.class);
+        String courierId = response.getHeaders().getFirst("courierId");
+        deliveryDto.setCourier(UUID.fromString(courierId));
+
+        deliveryDto.setOrderstate(OrderStatus.PROCESSING);
         deliveryService.create(deliveryDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(deliveryDto.toString());
     }
 
     @GetMapping("/findCourier")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<String> findCourier(@RequestParam UUID uuid) {
-        DeliveryDto delivery = deliveryService.findByUUID(uuid);
+    public ResponseEntity<String> findCourier(@RequestParam String uuid) {
+        DeliveryDto delivery = deliveryService.findByUUID(UUID.fromString(uuid));
         if (delivery == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Delivery not found");
         }
         RestTemplate restTemplate = new RestTemplate();
         URI uri = UriComponentsBuilder.fromUriString(urlCourier).build(42);
         RequestEntity<Void> requestEntity = RequestEntity.get(uri)
-                // .header("MyRequestHeader", "MyValue")
                 .build();
         ResponseEntity<String> response = restTemplate.exchange(requestEntity, String.class);
         String courierId = response.getHeaders().getFirst("courierId");
