@@ -2,7 +2,6 @@ package com.purple.delivery.dto;
 
 import com.purple.delivery.model.OrderStatus;
 import com.purple.delivery.dto.dto.OrderDto;
-import com.purple.delivery.entities.Order;
 import lombok.Data;
 
 import org.mapstruct.Mapper;
