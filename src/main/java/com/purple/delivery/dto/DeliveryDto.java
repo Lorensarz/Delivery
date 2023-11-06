@@ -24,6 +24,7 @@ public class DeliveryDto {
     private LocalDateTime delivery_date;
     private OrderStatus orderstate;
     private UUID courier;
+    private UUID clientId;
     private String address;
     private BigDecimal cost;
 

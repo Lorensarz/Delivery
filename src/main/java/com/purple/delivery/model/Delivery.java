@@ -39,6 +39,9 @@ public class Delivery {
     @Column(name="courier")
     private UUID courier;
 
+    @Column(name="client_id")
+    private UUID clientId;
+
     @Column(name="address")
     private String address;
 
