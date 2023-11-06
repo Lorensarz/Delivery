@@ -1,4 +1,4 @@
-package com.purple.delivery.controller;
+/*package com.purple.delivery.controller;
 
 import com.purple.delivery.dto.DeliveryDto;
 
@@ -38,10 +38,9 @@ public class OrderController {
 
 
         UUID userId = orderDto.getClientId();
-        //
-        return( deliveryController.createOrder(service.add(orderDto, userId),new DeliveryDto()));
+
+        return( deliveryController.createDelivery(service.add(orderDto, userId)));
     }
 
-  //  @PostMapping(path = "/create", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 
-}
+}*/

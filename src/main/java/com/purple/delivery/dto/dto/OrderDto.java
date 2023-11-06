@@ -14,7 +14,7 @@ public class OrderDto {
 
     private  UUID uuid;
 
-    private Timestamp date;
+    private Timestamp timestamp;
 
     private Integer sum;
 
@@ -22,6 +22,6 @@ public class OrderDto {
 
     private  String address;
 
-    private List<String> orderItemsList;
+    private List<String> products;
 
 }

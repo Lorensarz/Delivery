@@ -1,6 +1,7 @@
 package com.purple.delivery.service;
 
 import com.purple.delivery.dto.DeliveryDto;
+import com.purple.delivery.dto.OrderDtoMapper;
 import com.purple.delivery.repository.DeliveryRepository;
 import com.purple.delivery.dto.dto.OrderDto;
 import com.purple.delivery.entities.Order;
@@ -23,9 +24,9 @@ public class OrderService {
 
     public OrderDto add(OrderDto orderDto, UUID userId) {
         Order order;
-        order = DeliveryDto.OrderDtoMapper.INSTANCE.toEntity(orderDto);
+        order = OrderDtoMapper.INSTANCE.toEntity(orderDto);
         order.setClientId(userId);
-        return DeliveryDto.OrderDtoMapper.INSTANCE.toDto(repository.save(order));
+        return OrderDtoMapper.INSTANCE.toDto(repository.save(order));
     }
 
 }

@@ -21,11 +21,11 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private UUID id;
+    @Column(name = "uuid")
+    private UUID uuid;
 
-    @Column(name = "date")
-    private Timestamp date;
+    @Column(name = "timestamp")
+    private Timestamp timestamp;
 
     @Column(name = "sum")
     private Integer sum;
@@ -33,6 +33,6 @@ public class Order {
     @Column(name = "client_id")
     private UUID clientId;
 
-    @Column(name = "order_Items_List")
-    private String orderItemsList;
+    @Column(name = "products")
+    private List<String> products;
 }

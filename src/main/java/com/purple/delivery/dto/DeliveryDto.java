@@ -27,10 +27,5 @@ public class DeliveryDto {
     private String address;
     private BigDecimal cost;
 
-    @Mapper
-    public static interface OrderDtoMapper {
-        OrderDtoMapper INSTANCE = Mappers.getMapper(OrderDtoMapper.class);
-        Order toEntity(OrderDto orderDto);
-        OrderDto toDto(Order order);
-    }
+
 }
