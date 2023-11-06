@@ -4,6 +4,7 @@ import com.purple.delivery.dto.DeliveryDto;
 
 
 import com.purple.delivery.dto.UserDto;
+import com.purple.delivery.model.Delivery;
 import com.purple.delivery.model.OrderStatus;
 import com.purple.delivery.service.DeliveryService;
 
@@ -28,13 +29,11 @@ import java.util.UUID;
 @SessionAttributes("delivery")
 public class DeliveryController {
 
-    @Value( "${userServiceUrl}" )
+    @Value("${userServiceUrl}")
     String urlUserService;
 
     private final DeliveryService deliveryService;
-    private final DeliveryDto deliveryDto = new DeliveryDto();
-
-
+    // private final DeliveryDto deliveryDto = new DeliveryDto();
 
 
     @Autowired
@@ -44,17 +43,11 @@ public class DeliveryController {
     }
 
 
-    @ModelAttribute("delivery")
-    public DeliveryDto initializationDelivery() {
-        return deliveryDto;
-    }
-
-
-@PostMapping("/createDelivery")
-    public ResponseEntity<String> createDelivery( @RequestBody OrderDto orderDto) {
+    @PostMapping("/createDelivery")
+    public ResponseEntity<String> createDelivery(@RequestBody OrderDto orderDto) {
         UUID uuid = orderDto.getUuid();
         String address = orderDto.getAddress();
-
+        DeliveryDto deliveryDto = new DeliveryDto();
         deliveryDto.setOrder_uuid(uuid);
         deliveryDto.setAddress(address);
         deliveryDto.setDelivery_date(LocalDateTime.now().plusDays(1));
@@ -67,32 +60,29 @@ public class DeliveryController {
 
     @GetMapping("/findCourier")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<String> findCourier(//@RequestHeader UUID courierId,
-                                              @ModelAttribute("delivery") DeliveryDto delivery) {
-        RestTemplate restTemplate = new RestTemplate();
+    public ResponseEntity<String> findCourier(@RequestParam UUID uuid){                                                                                 )
 
-        URI uri = UriComponentsBuilder.fromUriString(urlUserService).build(42);
-        RequestEntity<Void> requestEntity = RequestEntity.get(uri)
-               // .header("MyRequestHeader", "MyValue")
-                .build();
-        ResponseEntity<String> response = restTemplate.exchange(requestEntity,  String.class);
-        String courierId = response.getHeaders().getFirst("courierId");
+            DeliveryDto delivery = deliveryService.findByUUID(uuid);
+            RestTemplate restTemplate = new RestTemplate();
+            URI uri = UriComponentsBuilder.fromUriString(urlUserService).build(42);
+            RequestEntity<Void> requestEntity = RequestEntity.get(uri)
+                    // .header("MyRequestHeader", "MyValue")
+                    .build();
+            ResponseEntity<String> response = restTemplate.exchange(requestEntity, String.class);
+            String courierId = response.getHeaders().getFirst("courierId");
 
-        if (delivery.getOrder_uuid() == null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Order not found");
+            if (delivery.getOrder_uuid() == null) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Order not found");
+            }
+            delivery.setCourier(UUID.fromString(courierId));
+            deliveryService.processOrder(delivery);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(courierId);
         }
 
 
-        delivery.setCourier(UUID.fromString(courierId));
-        deliveryService.processOrder(delivery);
-
-      //  return ResponseEntity.status(HttpStatus.ACCEPTED).body("Courier assigned");
-       return ResponseEntity.status(HttpStatus.ACCEPTED).body(courierId);
-    }
-
     @GetMapping("/getAddressTest")
     @ResponseStatus(HttpStatus.OK)
-    public  ResponseEntity<String> getDeliveryAddressTest(@RequestHeader String address, @ModelAttribute("delivery") DeliveryDto delivery){
+    public ResponseEntity<String> getDeliveryAddressTest(@RequestHeader String address, @ModelAttribute("delivery") DeliveryDto delivery) {
        /* RestTemplate restTemplate = new RestTemplate();
 
         URI uri = UriComponentsBuilder.fromUriString(urlUserService).build(42);
@@ -101,32 +91,31 @@ public class DeliveryController {
                 .build();
         ResponseEntity<String> response = restTemplate.exchange(requestEntity,  String.class);
         String address = response.getHeaders().getFirst("address");*/
-        if (delivery== null) {
+        if (delivery == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Delivery not created");
         }
-delivery.setAddress(address);
-delivery.setOrderstate(OrderStatus.PROCESSING);
-        deliveryService.processOrder(delivery);
-return ResponseEntity.status(HttpStatus.OK).body("Address set");
-    }
-
-    @GetMapping("/getAddress")
-    @ResponseStatus(HttpStatus.OK)
-    public  ResponseEntity<String> getDeliveryAddress(@RequestParam String clientId, @ModelAttribute("delivery") DeliveryDto delivery){
-        RestTemplate restTemplate = new RestTemplate();
-
-        URI uri = UriComponentsBuilder.fromUriString(urlUserService).build(42);
-        RequestEntity<Void> requestEntity = RequestEntity.get(uri)
-                // .header("MyRequestHeader", "MyValue")
-                .build();
-        ResponseEntity<String> response = restTemplate.exchange(requestEntity,  String.class);
-        String address = response.getHeaders().getFirst("address");
         delivery.setAddress(address);
         delivery.setOrderstate(OrderStatus.PROCESSING);
         deliveryService.processOrder(delivery);
         return ResponseEntity.status(HttpStatus.OK).body("Address set");
     }
 
+    @GetMapping("/getAddress")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> getDeliveryAddress(@RequestParam String clientId, @ModelAttribute("delivery") DeliveryDto delivery) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        URI uri = UriComponentsBuilder.fromUriString(urlUserService).build(42);
+        RequestEntity<Void> requestEntity = RequestEntity.get(uri)
+                // .header("MyRequestHeader", "MyValue")
+                .build();
+        ResponseEntity<String> response = restTemplate.exchange(requestEntity, String.class);
+        String address = response.getHeaders().getFirst("address");
+        delivery.setAddress(address);
+        delivery.setOrderstate(OrderStatus.PROCESSING);
+        deliveryService.processOrder(delivery);
+        return ResponseEntity.status(HttpStatus.OK).body("Address set");
+    }
 
 
     @GetMapping("/findAll")

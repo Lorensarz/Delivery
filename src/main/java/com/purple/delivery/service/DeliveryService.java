@@ -8,6 +8,9 @@ import com.purple.delivery.repository.DeliveryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class DeliveryService {
 
@@ -30,6 +33,13 @@ public class DeliveryService {
     }
     public Delivery create(DeliveryDto deliveryDto) {
         return deliveryRepository.save(entityMapper.dtoToEntity(deliveryDto));
+    }
+
+    public DeliveryDto findByUUID(UUID uuid ){
+         Delivery delivery= deliveryRepository.findById(uuid).orElseThrow( null);
+         DeliveryDto  dto = entityMapper.entityToDto(delivery);
+        return dto;
+
     }
 
     public Iterable<DeliveryDto> findAll() {
