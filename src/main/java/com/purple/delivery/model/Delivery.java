@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import java.util.UUID;
@@ -28,10 +29,10 @@ public class Delivery {
     private UUID order_uuid;
 
     @Column(name="order_date")
-    private LocalDateTime order_date;
+    private Timestamp order_date;
 
     @Column(name="delivery_date")
-    private LocalDateTime delivery_date;
+    private Timestamp delivery_date;
 
     @Column(name="orderstate")
     private String orderstate;
@@ -48,6 +49,12 @@ public class Delivery {
     @Column(name="cost")
     private BigDecimal cost;
 
+    public Timestamp getOrder_date() {
+        return order_date;
+    }
 
+    public void setOrder_date(Timestamp order_date) {
+        this.order_date = order_date;
+    }
 }
 

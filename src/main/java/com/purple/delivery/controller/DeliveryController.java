@@ -3,6 +3,7 @@ package com.purple.delivery.controller;
 import com.purple.delivery.dto.DeliveryDto;
 
 
+import com.purple.delivery.model.Delivery;
 import com.purple.delivery.model.OrderStatus;
 
 import com.purple.delivery.dto.dto.OrderDto;
@@ -21,6 +22,7 @@ import java.net.URI;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -47,7 +49,7 @@ public class DeliveryController {
 
 
     @PostMapping("/createDelivery")
-    public ResponseEntity<String> createDelivery(@RequestBody OrderDto orderDto) {
+    public ResponseEntity<DeliveryDto> createDelivery(@RequestBody OrderDto orderDto) {
         UUID uuid = orderDto.getUuid();
         DeliveryDto deliveryDto = new DeliveryDto();
         deliveryDto.setOrder_uuid(uuid);
@@ -61,20 +63,26 @@ public class DeliveryController {
                 .header("userId", orderDto.getClientId().toString())
                 .build();
         ResponseEntity<String> response = restTemplate.exchange(requestEntity, String.class);
-        String address = response.getHeaders().getFirst("address");
-        if (address!=null) deliveryDto.setAddress(address);
-
+        if (response.getStatusCode()==HttpStatus.OK) {
+            String address = response.getHeaders().getFirst("address");
+            if (address != null) deliveryDto.setAddress(address);
+        }
+        else
+            System.out.println("Address not found in user service");
         restTemplate = new RestTemplate();
         uri = UriComponentsBuilder.fromUriString(urlCourier).build(42);
         requestEntity = RequestEntity.get(uri)
                 .build();
         response = restTemplate.exchange(requestEntity, String.class);
-        String courierId = response.getHeaders().getFirst("userId");
-        deliveryDto.setCourier(UUID.fromString(courierId));
-
+        if (response.getStatusCode()==HttpStatus.OK){
+            String courierId = response.getHeaders().getFirst("userId");
+            deliveryDto.setCourier(UUID.fromString(courierId));
+        }
+        else
+            System.out.println("Courier not found in user service");
         deliveryDto.setOrderstate(OrderStatus.PROCESSING);
-        deliveryService.create(deliveryDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(deliveryDto.toString());
+        Delivery dto = deliveryService.create(deliveryDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(deliveryDto);
     }
 
     @GetMapping("/findCourier")
@@ -91,7 +99,7 @@ public class DeliveryController {
         ResponseEntity<String> response = restTemplate.exchange(requestEntity, String.class);
         String courierId = response.getHeaders().getFirst("courierId");
         delivery.setCourier(UUID.fromString(courierId));
-        deliveryService.processOrder(delivery);
+        deliveryService.create(delivery);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(courierId);
     }
 
