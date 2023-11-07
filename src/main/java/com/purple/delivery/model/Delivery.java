@@ -20,21 +20,20 @@ import java.util.UUID;
 public class Delivery {
 
     @Id
-
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
 
     @Column(name="order_id")
-    private UUID order_uuid;
+    private UUID orderUuid;
 
     @Column(name="order_date")
-    private LocalDateTime order_date;
+    private LocalDateTime orderDate;
 
     @Column(name="delivery_date")
-    private LocalDateTime delivery_date;
+    private LocalDateTime deliveryDate;
 
     @Column(name="orderstate")
-    private String orderstate;
+    private String orderState;
 
     @Column(name="courier")
     private UUID courier;

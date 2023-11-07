@@ -1,4 +1,4 @@
-package com.purple.delivery.dto.dto;
+package com.purple.delivery.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,16 +12,11 @@ import java.util.UUID;
 @Data
 public class OrderDto {
 
-    private  UUID uuid;
-
+    private UUID uuid;
     private Timestamp timestamp;
-
     private Integer sum;
-
     private UUID clientId;
-
-    private  String address;
-
+    private String address;
     private List<String> products;
 
 }
