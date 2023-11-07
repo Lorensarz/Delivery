@@ -56,14 +56,13 @@ public class DeliveryController {
         deliveryDto.setOrder_date(orderDto.getTimestamp());
         deliveryDto.setCost(new BigDecimal(500));
         RestTemplate restTemplate = new RestTemplate();
-
         URI uri = UriComponentsBuilder.fromUriString(urlAddress).build(42);
         RequestEntity<Void> requestEntity = RequestEntity.get(uri)
                 .header("userId", orderDto.getClientId().toString())
                 .build();
         ResponseEntity<String> response = restTemplate.exchange(requestEntity, String.class);
         String address = response.getHeaders().getFirst("address");
-        deliveryDto.setAddress(address);
+        if (address!=null) deliveryDto.setAddress(address);
 
         restTemplate = new RestTemplate();
         uri = UriComponentsBuilder.fromUriString(urlCourier).build(42);
