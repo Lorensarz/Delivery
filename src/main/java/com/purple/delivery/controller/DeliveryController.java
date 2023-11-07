@@ -69,7 +69,7 @@ public class DeliveryController {
         requestEntity = RequestEntity.get(uri)
                 .build();
         response = restTemplate.exchange(requestEntity, String.class);
-        String courierId = response.getHeaders().getFirst("courierId");
+        String courierId = response.getHeaders().getFirst("userId");
         deliveryDto.setCourier(UUID.fromString(courierId));
 
         deliveryDto.setOrderstate(OrderStatus.PROCESSING);
